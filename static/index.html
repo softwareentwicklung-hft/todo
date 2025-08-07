@@ -4,9 +4,12 @@
     <title>Todo List</title>
 </head>
 <body>
+<!-- Dies ist der Titel der Internetseite -->
 <h1>Todo List</h1>
 <ul id="todo-list"></ul>
+<!-- Hier kann eine neue Aufgabe hinzugefügt werden -->
 <input id="task" placeholder="Neue Aufgabe" onenter="addTodo()" />
+<!-- Dies ist der Knopf um neue Aufgaben hinzuzufügen -->
 <button onclick="addTodo()">Add</button>
 
 <script>
@@ -26,10 +29,15 @@
     async function loadTodos() {
         const res = await fetch('/todos');
         const todos = await res.json();
+        // Überprüfe wie das Aufgaben-json welches vom Backend übergeben wird aussieht
+        // dies kann im Browser mit den Entwicklungstools in der Konsole überprüft werden
+        console.log(todos);
+        // mit control und klick auf die verwendeten Methoden, kann die Dokumentation angezeit werden
         const list = document.getElementById('todo-list');
         list.innerHTML = '';
         todos.forEach(todo => {
             const li = document.createElement('li');
+            // if aufgabe == gelöst { häckchen} else { nichts }
             li.innerText = todo.task + (todo.done ? " ✅" : "");
             list.appendChild(li);
         });
@@ -40,6 +48,7 @@
         const task = document.getElementById('task').value;
         // hier wird eine Information in der Konsole vom Browser geloggt
         console.log(task);
+        // Hier wird der REST Request erstellt unm eine Aufgabe hinzuzufügen
         await fetch('/todos', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
