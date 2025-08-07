@@ -6,10 +6,23 @@
 <body>
 <h1>Todo List</h1>
 <ul id="todo-list"></ul>
-<input id="task" placeholder="New task" />
+<input id="task" placeholder="Neue Aufgabe" onenter="addTodo()" />
 <button onclick="addTodo()">Add</button>
 
 <script>
+
+    // die Variable input wird dafür verwenden, dass ein Task auch mit Enter hinzugefügt werden kann
+    const input = document.getElementById("task");
+
+    input.addEventListener("keydown", function(event) {
+        // wenn der Knopf "Enter" gedrückt wird, dann wird die Methode addTodo() aufgerufen
+        if (event.key === "Enter") {
+            addTodo();
+        }
+    });
+
+
+    // hier werden die Aufgaben geladen
     async function loadTodos() {
         const res = await fetch('/todos');
         const todos = await res.json();
@@ -22,8 +35,11 @@
         });
     }
 
+    // hier wird eine Aufgabe hinzugefügt, dies wird mit Hilfe von dem POST kommando gemacht
     async function addTodo() {
         const task = document.getElementById('task').value;
+        // hier wird eine Information in der Konsole vom Browser geloggt
+        console.log(task);
         await fetch('/todos', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -32,6 +48,9 @@
         document.getElementById('task').value = '';
         loadTodos();
     }
+
+    // füge das Löschen, Updaten von Aufgaben hinzu
+    // Zusatzaufgabe: hinzufügen von Styling mit CSS
 
     loadTodos();
 </script>

@@ -18,6 +18,8 @@ int next_id = 1;
 int main() {
     crow::SimpleApp app;
 
+    // hier wird die index.html Datei aufgerufen damit das UI angezeigt werden kann
+    // wenn die Datei nicht gefunden wird, wird eine Fehlermeldung ausgegeben
     CROW_ROUTE(app, "/")([]() {
         std::ifstream file("static/index.html");
         if (!file.is_open()) {
@@ -31,7 +33,7 @@ int main() {
         return res;
     });
 
-    // Get all todos
+    // Zeige alle Aufgaben an
     CROW_ROUTE(app, "/todos").methods("GET"_method)([]() {
         std::lock_guard<std::mutex> lock(todos_mutex);
         json j = json::array();
@@ -41,7 +43,7 @@ int main() {
         return crow::response(j.dump());
     });
 
-    // Add a todo
+    // füge eine Aufgabe hinzu
     CROW_ROUTE(app, "/todos").methods("POST"_method)([](const crow::request& req) {
         auto body = json::parse(req.body);
         if (!body.contains("task") || !body["task"].is_string()) {
@@ -52,6 +54,10 @@ int main() {
         todos.push_back(newTodo);
         return crow::response(201, json{{"id", newTodo.id}}.dump());
     });
+
+    // hier müssen noch zusätzlich DELETE, UPDATE und PUT hinzugefügt werden
+    // wie können die einzelnen Aufgaben erkannt werden und wie kann sichergestellt werden, dass die korrekte Aufgabe geupdated wird
+    // die Daten werden gelöscht, sobald das Programm geschlossen wird, hier soll noch das Speichern und Einlesen der Daten hinzufügen
 
     app.port(18080).multithreaded().run();
 }
