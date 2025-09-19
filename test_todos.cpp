@@ -4,8 +4,8 @@
 
 using json = nlohmann::json;
 
-// damit die Tests ausgeführt werden können muss die todoApplikation gestartet werden
-// ansonsten funktionieren die Tests nicht
+// Damit die Tests ausgeführt werden können, muss die Todo-Applikation gestartet werden.
+// Andernfalls funktionieren die Tests nicht.
 TEST(TodoApiTest, PostTodo) {
 auto res = cpr::Post(
         cpr::Url{"http://localhost:18080/todos"},

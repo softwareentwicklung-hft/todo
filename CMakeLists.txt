@@ -3,7 +3,7 @@ project(api)
 
 set(CMAKE_CXX_STANDARD 20)
 
-# alle packages die verwendet werden
+# Alle Packages, die verwendet werden
 find_package(Crow CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(asio CONFIG REQUIRED)
@@ -20,13 +20,13 @@ if (WIN32)
     target_link_libraries(api PRIVATE ws2_32 Mswsock)
 endif()
 
-# Pfad zur UI
+# Pfad zum UI
 add_custom_command(TARGET api POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/static $<TARGET_FILE_DIR:api>/static
 )
 
-# Testen mit Google Tests
+# Tests mit Google Test
 enable_testing()
 
 add_executable(api_tests test_todos.cpp)

@@ -1,8 +1,19 @@
-# todo Applikation
+# ToDo-Applikation
 
-Das Ziel ist es eine todo Applikation zu schreiben. In diesem Repository sind die Grundlagen dafür vorgegeben.
-Am Schluss soll es möglich sein, Aufgaben hinzuzufügen, upzudaten und zu löschen. 
-Es müssen zwei Möglichkeiten zur verfügung gestellt werden. Einerseitst muss die Applikation mit einem UI bediehnt werden können 
-und andererseits muss die REST API auch mit CURL bedient werden können.
+Das Ziel dieses Projekts ist die Entwicklung einer ToDo-Applikation.  
+In diesem Repository sind bereits die Grundlagen dafür vorbereitet.
 
-Momentan werden die Aufgaben gelöscht sobald das Programm gestopt wird. Ziel ist es, dass die Aufgaben dpersisten sind und bei einem neustart das Programms nicht gelöscht werden.
+## Funktionsumfang
+Am Ende der Implementierung soll es möglich sein:
+- Aufgaben **hinzuzufügen**
+- Aufgaben **zu aktualisieren**
+- Aufgaben **zu löschen**
+
+## Nutzungsmöglichkeiten
+Die Applikation muss auf zwei Arten bedienbar sein:
+1. Über ein Benutzerinterface (UI)
+2. Über eine REST API (die wird auch mit `curl` angesprochen)
+
+## Persistenz
+Der aktuelle Stand sieht vor, dass alle Aufgaben beim Beenden des Programms gelöscht werden.  
+Ziel ist es jedoch, die Aufgaben persistent zu speichern, sodass sie auch nach einem Neustart des Programms weiterhin vorhanden sind.  
