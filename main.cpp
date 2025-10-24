@@ -63,5 +63,42 @@ int main() {
         return crow::response(201, json{{"id", newTodo.id}}.dump());
     });
 
+    // Lösche alle Aufgaben
+    CROW_ROUTE(app, "/todos").methods("DELETE"_method)([]() {
+        std::lock_guard<std::mutex> lock(todos_mutex);
+        todos.clear(); // Alle Elemente löschen
+        next_id = 1;   // ID-Zähler zurücksetzen
+        // 204 No Content ist die Standardantwort für erfolgreiche Operation ohne Rückgabe
+        return crow::response(204);
+    });
+
+
+    // Lösche eine spezifische Aufgabe
+    CROW_ROUTE(app, "/todos/<int>").methods("DELETE"_method)([](int id) {
+        std::lock_guard<std::mutex> lock(todos_mutex);
+
+        bool foundAndRemoved = false;
+
+        // Manuelles Suchen und Löschen
+        for (auto it = todos.begin(); it != todos.end(); ++it) {
+            if (it->id == id) {
+                todos.erase(it);
+                foundAndRemoved = true;
+                break; // Da IDs eindeutig sind, können wir aufhören
+            }
+        }
+
+        if (foundAndRemoved) {
+            // Erfolgreich gelöscht
+            return crow::response(204);
+        }
+
+        // Aufgabe nicht gefunden
+        return crow::response(404, "Todo not found");
+    });
+
+
+
+
     app.port(18080).multithreaded().run();
 }
