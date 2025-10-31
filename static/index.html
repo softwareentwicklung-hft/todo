@@ -4,13 +4,11 @@
     <title>Todo List</title>
 </head>
 <body>
-<!-- Dies ist der Titel der Internetseite -->
 <h1>Todo List</h1>
 <ul id="todo-list"></ul>
-<!-- Hier kann eine neue Aufgabe hinzugefügt werden -->
 <input id="task" placeholder="Neue Aufgabe" onenter="addTodo()" />
-<!-- Dies ist der Knopf, um neue Aufgaben hinzuzufügen -->
 <button onclick="addTodo()">Add</button>
+<button onclick="deleteAllTodos()">Delete All</button>
 
 <script>
 
@@ -30,15 +28,23 @@
         const res = await fetch('/todos');
         const todos = await res.json();
         // Überprüfe, wie das Aufgaben-JSON, welches vom Backend übergeben wird, aussieht
-        // Dies kann im Browser mit den Entwicklungstools in der Konsole überprüft werden
         console.log(todos);
-        // Mit Control und Klick auf die verwendeten Methoden kann die Dokumentation angezeigt werden
+
         const list = document.getElementById('todo-list');
         list.innerHTML = '';
         todos.forEach(todo => {
             const li = document.createElement('li');
             // if Aufgabe == gelöst { Häkchen } else { nichts }
             li.innerText = todo.task + (todo.done ? " ✅" : "");
+
+            // NEU: Knopf zum Löschen einer einzelnen Aufgabe
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'delete';
+            deleteButton.style.marginLeft = '10px';
+            // Ruft deleteTodo mit der ID der Aufgabe auf
+            deleteButton.onclick = () => deleteTodo(todo.id);
+
+            li.appendChild(deleteButton);
             list.appendChild(li);
         });
     }
@@ -56,6 +62,28 @@
         });
         document.getElementById('task').value = '';
         loadTodos();
+    }
+
+    // NEU: Lösche eine spezifische Aufgabe
+    async function deleteTodo(id) {
+        console.log(`Deleting todo with id: ${id}`);
+        // Sendet einen DELETE-Request an /todos/{id}
+        await fetch(`/todos/${id}`, {
+            method: 'DELETE'
+        });
+        loadTodos(); // Liste neu laden
+    }
+
+    // NEU: Lösche alle Aufgaben
+    async function deleteAllTodos() {
+        if (confirm("Sind Sie sicher, dass Sie ALLE Aufgaben loeschen moechten?")) {
+            console.log('Deleting all todos');
+            // Sendet einen DELETE-Request an /todos
+            await fetch('/todos', {
+                method: 'DELETE'
+            });
+            loadTodos(); // Liste neu laden
+        }
     }
 
     // Füge das Löschen und Updaten von Aufgaben hinzu
