@@ -1,13 +1,12 @@
 # ToDo-Applikation
 
-Das Ziel dieses Projekts ist die Entwicklung einer ToDo-Applikation.  
+Das Ziel ist die Entwicklung einer ToDo-Applikation.  
 In diesem Repository sind bereits die Grundlagen dafür vorbereitet.
 
 ## Funktionsumfang
 Am Ende der Implementierung soll es möglich sein:
-- Aufgaben **hinzuzufügen**
-- Aufgaben **zu aktualisieren**
-- Aufgaben **zu löschen**
+- eine Aufgabe **zu löschen**
+- alle Aufgaben **zu löschen**
 
 ## Nutzungsmöglichkeiten
 Die Applikation muss auf zwei Arten bedienbar sein:
